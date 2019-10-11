@@ -6,15 +6,8 @@
 	 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="bar" class="x.y.Bar" />
-	<bean id="baz" class="x.y.Baz" />
 	<bean id="foo" class="x.y.Foo">
-		<constructor-arg>
-			<ref bean="bar" />
-		</constructor-arg>
-		<constructor-arg ref="baz" />
+		<lookup-method name="getBar" bean="bar" /> <!-- Foo의 getBar 오버라이딩. 리턴할 것을 null 아니라 bar로. Look-up 메서드 인젝션 -->
 	</bean>
-	<!-- <constructor-arg index="0"> 생성자 인자 0번째
-			<value>안녕</value>
-		</constructor-arg>
-		<constructor-arg index="1" type="int" value="3"/> 생성자 인자 1번째 int 타입-->
+
 </beans>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans.xsd
+	 http://www.springframework.org/schema/context
+	 http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:annotation-config/> <!-- ApplicationContext 안에 이미 등록된 bean들의 Annotation을 활성화 -->
+	<context:component-scan base-package="x.y" /> <!--  base-package속성으로 지정 된 패키지 내의 클래스를 검색하여 자동으로 빈으로 등록하는 기능 -->
+			
+</beans>
