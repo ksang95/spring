@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	<!-- sqlmap 필기하기 -->
+
+	<!-- property파일 불러오기. id 생략하면 자동으로 잡힘. 연결할 db정보 properties로. -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:resources/jdbc.properties</value>
+		</property>
+	</bean>
+
+	<!-- getProperty->el로가능 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="${driver}" p:url="${url}" p:username="${username}"
+		p:password="${password}" />
+
+	<bean id="sqlSessionFactoryBean"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations"
+			value="classpath:com/bit/jdbc/dao/**/*.xml"/>
+		<!-- mapperLocations : Mapper파일의 위치를 지정함. ** : 0개 이상의 하위 디렉토리 -->
+		<!-- property name="typeAliasesPackage" value="패키지명" typeAliasesPackage 
+			: Mapper에서 타입을 지정할 때 도메인 클래스의 패키지 명을 생략할 수 있도록 함 -->
+	</bean>
+
+	<!-- MyBatis SQL메서드를 호출하는데 사용 ¨ thread safe하며,여러 DAO들에서 사용 가능하다. -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactoryBean" />
+	</bean>
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.bit.jdbc"/>
+	<mybatis-spring:scan
+		base-package="com.bit.jdbc" />
+
+</beans>

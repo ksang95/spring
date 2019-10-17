@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.jdbc.dao.EmpMapper">
+	<select id="selectEmp" parameterType="int" 
+		resultType="com.bit.jdbc.vo.Emp"> <!-- parameter 여러개이면 map또는 vo. parameterType이 vo이면 #{}은 getter. ResultSet에서 resultType의 setter호출해서 값 넣어줌 -->
+		select * from emp where empno=#{en}
+	</select>
+</mapper>
